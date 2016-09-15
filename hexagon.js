@@ -114,7 +114,7 @@ HexagonGrid.prototype.drawMarkedTile = function(tile) {
     this.context.stroke();
 };
 
-HexagonGrid.prototype.fadeTile = function(tile) {
+HexagonGrid.prototype.growTile = function(tile) {
     toInt = parseInt("0x"+tile.color.substring(1)) - this.getDGrowth();
     if (toInt > this.tileColorInt) {
         toStr = "#" + toInt.toString(16);
@@ -170,7 +170,13 @@ HexagonGrid.prototype.isOutOfBounds = function(column,row) {
 };
 
 HexagonGrid.prototype.constructTile = function(column,row) {
-    return { column: column, row: row, color: this.tileColor, marked: false };
+    return { 
+        column: column, 
+        row: row, 
+        color: this.tileColor, 
+        marked: false,
+        seeds: 0 
+    };
 };
 
 HexagonGrid.prototype.getTile = function(column,row) {
@@ -301,12 +307,14 @@ HexagonGrid.prototype.getLocalY = function (mouseY) {
 
 HexagonGrid.prototype.markTile = function(tile) {
     if (tile.marked) {
-        return;
+        return false;
     }
     this.marked.isMarked[tile.column][tile.row] = true;
-    this.tiles[tile.column][tile.row].marked = true;
-    this.tiles[tile.column][tile.row].color = this.tileMarkedColor;
+    tile.marked = true;
+    tile.color = this.tileMarkedColor;
+    tile.seeds = 10;
     this.marked.tiles.push(tile);
+    return true;
 }
 
 HexagonGrid.prototype.isMarked = function(tile) {

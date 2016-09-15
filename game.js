@@ -66,12 +66,16 @@ Game.update = function() {
 	var markedTiles = Game.hexgrid.getMarkedTiles();
 	for (var i = 0; i < markedTiles.length; i++) {
 		var tile = markedTiles[i];
-	    var tick = Game.hexgrid.fadeTile(tile);
-	    if (tick) {
-	    	var neighbours = Game.hexgrid.getNeighbours(tile);
-	    	var randi = Math.floor(Math.random() * neighbours.length);
-	    	Game.hexgrid.markTile(neighbours[randi]);
-	    }
+		if (tile.seeds > 0) {
+		    var tick = Game.hexgrid.growTile(tile);
+		    if (tick) {
+		    	var neighbours = Game.hexgrid.getNeighbours(tile);
+		    	var randi = Math.floor(Math.random() * neighbours.length);
+		    	if (Game.hexgrid.markTile(neighbours[randi])) {
+		    		tile.seeds -= 1;
+		    	}
+		    }
+		}
 	};
 };
 
