@@ -1,0 +1,16 @@
+hexagon.js
+	fix radius scaling
+	- the "50" radius is currently somehow the only (known) proper radius...
+
+game.js
+	
+	build gameloop and logic
+	- flesh this todo out into subtasks
+
+index.html
+	add buttons with functionality
+	- depend on what we want to do with game.js
+
+main.js
+	fetch computer resolution
+	- grid size should depend on screen resolution

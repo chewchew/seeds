@@ -1,0 +1,16 @@
+body {
+ background-color: #044A0B;
+}
+
+#wrap {
+	overflow: auto;
+}
+
+#HexCanvas {
+	float: left;
+}
+
+#menu {
+	float: right;
+	color: red;
+}
