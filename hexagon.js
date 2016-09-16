@@ -94,11 +94,13 @@ HexagonGrid.prototype.drawHexAtColRow = function(column, row, color) {
 };
 
 HexagonGrid.prototype.drawTile = function(tile) {
-    isMarked = this.isMarked(tile);
-    color = isMarked ? tile.color : this.tileColor;
-    this.drawHexAtColRow(tile.column,tile.row,color);
-    if (isMarked) {
-        this.drawMarkedTile(tile);
+    if (tile.hasChanged) {
+        isMarked = this.isMarked(tile);
+        this.drawHexAtColRow(tile.column,tile.row,tile.color);
+        if (isMarked) {
+            this.drawMarkedTile(tile);
+        }
+        tile.hasChanged = false;
     }
 };
 
@@ -115,6 +117,7 @@ HexagonGrid.prototype.drawMarkedTile = function(tile) {
 };
 
 HexagonGrid.prototype.growTile = function(tile) {
+    tile.hasChanged = true;
     toInt = parseInt("0x"+tile.color.substring(1)) - this.getDGrowth();
     if (toInt > this.tileColorInt) {
         toStr = "#" + toInt.toString(16);
@@ -175,7 +178,8 @@ HexagonGrid.prototype.constructTile = function(column,row) {
         row: row, 
         color: this.tileColor, 
         marked: false,
-        seeds: 0 
+        seeds: 0,
+        hasChanged: true,
     };
 };
 
@@ -314,6 +318,7 @@ HexagonGrid.prototype.markTile = function(tile) {
     tile.color = this.tileMarkedColor;
     tile.seeds = 10;
     this.marked.tiles.push(tile);
+    tile.hasChanged = true;
     return true;
 }
 
